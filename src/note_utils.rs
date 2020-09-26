@@ -1,3 +1,5 @@
+use std::ops::Add;
+
 const NOTES: [&str; 12] = [
     "A", "A#", "B", "C", "C#", "D",
     "D#", "E", "F", "F#", "G", "G#"
@@ -19,4 +21,33 @@ pub fn find_note_on_fret<'a>(string_idx: u8, fret_idx: u8) -> &'a str {
     let note_pos = find_note_pos(start_note);
     let jump_to_note= (note_pos + fret_idx) % NOTES.len() as u8;
     NOTES[jump_to_note as usize]
+}
+
+fn draw_fret() {
+    let mut fret = String::from("0");
+    for _ in 0..12 {
+        fret = fret.add("|   ");
+    };
+    fret = fret.add("|");
+    println!("{}", fret);
+}
+
+fn draw_fret_marks() {
+    let mut mark = String::from(" ");
+    for i in 0..12 {
+        if (i + 1) % 2 != 0 {
+            mark = mark.add("  * ");
+        } else {
+            mark = mark.add("    ");
+        }
+    };
+    println!("{}", mark);
+}
+
+pub fn draw_frets() {
+    draw_fret_marks();
+    for _ in 0..6 {
+        draw_fret();
+    }
+    draw_fret_marks();
 }
