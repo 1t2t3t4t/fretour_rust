@@ -37,6 +37,8 @@ fn draw_fret_marks() {
     for i in 1..=12 {
         if i % 2 != 0 && i != 11 {
             mark = mark.add("  * ");
+        } else if i == 12 {
+            mark = mark.add(" ***");
         } else {
             mark = mark.add("    ");
         }
