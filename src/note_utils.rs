@@ -34,8 +34,8 @@ fn draw_fret() {
 
 fn draw_fret_marks() {
     let mut mark = String::from(" ");
-    for i in 0..12 {
-        if (i + 1) % 2 != 0 {
+    for i in 1..=12 {
+        if i % 2 != 0 && i != 11 {
             mark = mark.add("  * ");
         } else {
             mark = mark.add("    ");
