@@ -23,10 +23,14 @@ pub fn find_note_on_fret<'a>(string_idx: u8, fret_idx: u8) -> &'a str {
     NOTES[jump_to_note as usize]
 }
 
-fn draw_fret() {
+fn draw_fret(fret_mark_idx: Option<u8>) {
     let mut fret = String::from("0");
     for _ in 0..12 {
-        fret = fret.add("|   ");
+        if let Some(idx) = fret_mark_idx {
+            fret = fret.add(&format!("| {} ", idx)[..]);
+        } else {
+            fret = fret.add("|   ");
+        }
     };
     fret = fret.add("|");
     println!("{}", fret);
@@ -46,10 +50,11 @@ fn draw_fret_marks() {
     println!("{}", mark);
 }
 
-pub fn draw_frets() {
+pub fn draw_frets(string_idx: u8, fret_idx: u8) {
     draw_fret_marks();
-    for _ in 0..6 {
-        draw_fret();
+    for i in 0..6 {
+        let fret_mark_idx = if i == string_idx { Some(fret_idx) } else { None };
+        draw_fret(fret_mark_idx);
     }
     draw_fret_marks();
 }

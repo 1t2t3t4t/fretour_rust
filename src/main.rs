@@ -44,7 +44,7 @@ fn main() {
             print!("Here it is. String {} fret {} What is your guess?: ", 6 - string_idx, fret_idx);
             stdout().flush().unwrap();
             println!("");
-            draw_frets();
+            draw_frets(string_idx, fret_idx);
             
             let inp = &read_input()[..];
             let actual = find_note_on_fret(string_idx, fret_idx);
