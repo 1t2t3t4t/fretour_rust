@@ -1,32 +1,13 @@
+mod note_utils;
+
+use note_utils::find_note_on_fret;
+
 use std::io::{stdin, stdout, Write};
-
 use rand::{Rng, thread_rng};
-
-const NOTES: [&str; 12] = [
-    "A", "A#", "B", "C", "C#", "D",
-    "D#", "E", "F", "F#", "G", "G#"
-];
-
-const FRETS: [&str; 6] = ["E", "A", "D", "G", "B", "E"];
-
-fn find_note(curr_note: &str) -> u8 {
-    for (idx, &note) in NOTES.iter().enumerate() {
-        if note == curr_note {
-            return idx as u8;
-        }
-    }
-    0
-}
-
-fn find_note_on_fret<'a>(string_idx: u8, fret_idx: u8) -> &'a str {
-    let start_note = FRETS[string_idx as usize];
-    let note_pos = find_note(start_note);
-    let jump_to_note= (note_pos + fret_idx) % NOTES.len() as u8;
-    NOTES[jump_to_note as usize]
-}
 
 fn main() {
     println!("Welcome!! let's get to know your fret board!!");
+    let mut fastest_record = u8::max_value();
     loop {
         let string_idx = thread_rng().gen_range(0, 6);
         let fret_idx = thread_rng().gen_range(0, 13);
@@ -40,9 +21,7 @@ fn main() {
         stdin().read_line(&mut ans).unwrap();
         let trimmed_ans = ans.trim_end();
 
-        if trimmed_ans == "q" {
-            break;
-        }
+        if trimmed_ans == "q" { break; }
 
         let actual = find_note_on_fret(string_idx, fret_idx);
         println!("Your guess is {}", trimmed_ans);
@@ -51,8 +30,14 @@ fn main() {
         } else {
             println!("It's incorrect!! The answer is {}", actual);
         }
-        println!("You took {} secs", timer.elapsed().as_secs());
+
+        let elapsed_sec = timer.elapsed().as_secs();
+        println!("You took {} secs", elapsed_sec);
+        if (elapsed_sec as u8) <= fastest_record {
+            fastest_record = elapsed_sec as u8;
+        }
     }
     println!("Let's play again later");
+    println!("Your fastest guess was {} secs", fastest_record);
 }
 
