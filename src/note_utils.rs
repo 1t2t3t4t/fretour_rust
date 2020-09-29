@@ -33,10 +33,10 @@ fn draw_fret(fret_mark_idx: Option<u8>) {
     let mut fret = String::from(start_text);
     for i in 1..=12 {
         if let Some(idx) = fret_mark_idx{
-            let text = if idx == i { "| X " } else { "|   " };
+            let text = if idx == i { "|-X-" } else { "|---" };
             fret = fret.add(text);
         } else {
-            fret = fret.add("|   ");
+            fret = fret.add("|---");
         }
     };
     fret = fret.add("|");
