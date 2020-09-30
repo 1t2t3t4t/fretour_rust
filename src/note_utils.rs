@@ -8,12 +8,8 @@ const NOTES: [&str; 12] = [
 const FRETS: [&str; 6] = ["E", "A", "D", "G", "B", "E"];
 
 fn find_note_pos(curr_note: &str) -> u8 {
-    for (idx, &note) in NOTES.iter().enumerate() {
-        if note == curr_note {
-            return idx as u8;
-        }
-    }
-    0
+    let idx_option = NOTES.iter().position(|&x| x == curr_note);
+    if let Some(idx) = idx_option { idx as u8 } else { 0 }
 }
 
 pub fn find_note_on_fret<'a>(string_idx: u8, fret_idx: u8) -> &'a str {
