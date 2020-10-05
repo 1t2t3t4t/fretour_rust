@@ -28,7 +28,7 @@ fn draw_fret(fret_mark_idx: Option<u8>) {
     }
     let mut fret = String::from(start_text);
     for i in 1..=12 {
-        if let Some(idx) = fret_mark_idx{
+        if let Some(idx) = fret_mark_idx {
             let text = if idx == i { "|-X-" } else { "|---" };
             fret = fret.add(text);
         } else {
@@ -42,7 +42,7 @@ fn draw_fret(fret_mark_idx: Option<u8>) {
 fn draw_fret_marks() {
     let mut mark = String::from(" ");
     for i in 1..=12 {
-        if i % 2 != 0 && i != 11 {
+        if let 3 | 5 | 7 | 9 = i {
             mark = mark.add("  * ");
         } else if i == 12 {
             mark = mark.add(" ***");
@@ -54,11 +54,15 @@ fn draw_fret_marks() {
 }
 
 pub fn draw_frets(string_idx: u8, fret_idx: u8) {
-    let inverted_string_idx = 5 - string_idx;
+    let inverted_marked_string_idx = 6 - string_idx;
     draw_fret_marks();
-    for i in 0..6 {
-        let fret_mark_idx = if i == inverted_string_idx { Some(fret_idx) } else { None };
-        draw_fret(fret_mark_idx);
+    for i in 1..=6 {
+        let fret_to_mark_idx = if i == inverted_marked_string_idx { 
+            Some(fret_idx) 
+        } else {
+            None
+        };
+        draw_fret(fret_to_mark_idx);
     }
     draw_fret_marks();
 }

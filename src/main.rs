@@ -28,20 +28,31 @@ fn elapsed_time(mut func: impl FnMut()) -> u8 {
     elapsed_sec as u8
 }
 
-fn gen_range() -> (u8, u8) {
-    let string_idx = thread_rng().gen_range(0, 6);
+fn gen_range(min_string: u8, max_string: u8) -> (u8, u8) {
+    let string_idx = thread_rng().gen_range(min_string - 1, max_string);
     let fret_idx = thread_rng().gen_range(0, 13);
     (string_idx as u8, fret_idx as u8)
 }
 
 fn main() {
+    let args = std::env::args().collect::<Vec<String>>();
+    let min_string = if let Some(str) = args.get(1) { 
+        str.parse::<u8>().unwrap()
+    } else {
+        1
+    };
+    let max_string = if let Some(str) = args.get(2) { 
+        str.parse::<u8>().unwrap()
+    } else {
+        6
+    };
     println!("Welcome!! let's get to know your fret board!!");
     let mut fastest_record = u8::max_value();
     let mut streak = 0u8;
     loop {
         let mut should_break = false;
         let elapsed_sec = elapsed_time(|| {
-            let (string_idx, fret_idx) = gen_range();
+            let (string_idx, fret_idx) = gen_range(min_string, max_string);
 
             print!("Here it is. String {} fret {} What is your guess?: ", 6 - string_idx, fret_idx);
             stdout().flush().unwrap();
