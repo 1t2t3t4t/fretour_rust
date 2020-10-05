@@ -42,13 +42,12 @@ fn draw_fret(fret_mark_idx: Option<u8>) {
 fn draw_fret_marks() {
     let mut mark = String::from(" ");
     for i in 1..=12 {
-        if let 3 | 5 | 7 | 9 = i {
-            mark = mark.add("  * ");
-        } else if i == 12 {
-            mark = mark.add(" ***");
-        } else {
-            mark = mark.add("    ");
-        }
+        let mark_to_add = match i {
+            3 | 5 | 7 | 9 => "  * ",
+            12 => " ***",
+            _ => "    "
+        };
+        mark = mark.add(mark_to_add);
     };
     println!("{}", mark);
 }
